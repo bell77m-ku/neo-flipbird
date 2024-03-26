@@ -5,11 +5,14 @@ import Counter from "../components/starter/counter/counter";
 import Hero from "../components/starter/hero/hero";
 import Infobox from "../components/starter/infobox/infobox";
 import Starter from "../components/starter/next-steps/next-steps";
+import { Logo } from "~/components/logo/logo";
 
 export default component$(() => {
   return (
     <>
-      <Hero />
+    <Logo />
+
+      {/* <Hero />
       <Starter />
 
       <div role="presentation" class="ellipsis"></div>
@@ -96,13 +99,13 @@ export default component$(() => {
             </ul>
           </Infobox>
         </div>
-      </div>
+      </div> */}
     </>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Welcome to FlipBird",
   meta: [
     {
       name: "description",
