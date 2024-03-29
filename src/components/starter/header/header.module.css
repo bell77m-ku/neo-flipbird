@@ -5,6 +5,8 @@
 }
 
 .logo {
+  margin-top: 50 px;
+  justify-content: center;
   display: inline-block;
 }
 .logo a {

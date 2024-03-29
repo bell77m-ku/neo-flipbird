@@ -5,13 +5,26 @@ import Counter from "../components/starter/counter/counter";
 import Hero from "../components/starter/hero/hero";
 import Infobox from "../components/starter/infobox/infobox";
 import Starter from "../components/starter/next-steps/next-steps";
-import { Logo } from "~/components/logo/logo";
+import { Board } from "~/components/board/board";
+import { SearchBar } from "~/components/searchBar/searchBar";
+import { NextPageBoard } from "~/components/nextPageBoard/nextPageBoard";
+
 
 export default component$(() => {
+  const board = [];
+  for (let i = 0; i < 2; i++) {
+    // note: we are adding a key prop here to allow react to uniquely identify each
+    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+    board.push(<Board key={i} />);
+  }
   return (
     <>
-    <Logo />
-
+      <SearchBar />
+      <div>
+        {board}
+      </div>
+      <NextPageBoard/>
+      
       {/* <Hero />
       <Starter />
 
