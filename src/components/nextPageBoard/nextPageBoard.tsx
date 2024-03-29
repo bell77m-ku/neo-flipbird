@@ -4,7 +4,7 @@ export interface NextPageBoardProps {
 
 }
 
-export const NextPageBoard = component$<NextPageBoardProps>((props) => {
+export const NextPageBoard = component$<NextPageBoardProps>(() => {
   return (
     <div class="container">
       <section >
