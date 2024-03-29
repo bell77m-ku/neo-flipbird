@@ -8,6 +8,8 @@ import Starter from "../components/starter/next-steps/next-steps";
 import { Board } from "~/components/board/board";
 import { SearchBar } from "~/components/searchBar/searchBar";
 import { NextPageBoard } from "~/components/nextPageBoard/nextPageBoard";
+import { PopularTag } from "~/components/popular_tag/popular-tag";
+import { AddBoard } from "~/components/addBoard/addBoard";
 
 
 export default component$(() => {
@@ -19,7 +21,9 @@ export default component$(() => {
   }
   return (
     <>
+      <PopularTag/>
       <SearchBar />
+      <AddBoard />
       <div>
         {board}
       </div>
