@@ -5,7 +5,7 @@ export interface BackBtnProps {
 
 }
 
-export const BackBtn = component$<BackBtnProps>((props) => {
+export const BackBtn = component$<BackBtnProps>(() => {
   useStylesScoped$(`
   `);
   return (

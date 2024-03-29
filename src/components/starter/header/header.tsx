@@ -1,5 +1,4 @@
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import { QwikLogo } from "../icons/qwik";
 import "../../../../node_modules/purecss/build/grids.css";
 import "../../../../node_modules/purecss/build/grids-responsive.css";
 import { Image } from '@unpic/qwik';

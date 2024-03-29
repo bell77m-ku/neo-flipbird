@@ -15,7 +15,7 @@ export default component$(() => {
   for (let i = 0; i < 2; i++) {
     // note: we are adding a key prop here to allow react to uniquely identify each
     // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-    board.push(<Board key={i} />);
+    board.push(<Board key={i} board_title="Test" board_date="1022" board_dislike={10} board_like={20} board_description="shit" board_tags={["hi", "hello"]}/>);
   }
   return (
     <>
