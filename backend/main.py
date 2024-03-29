@@ -1,6 +1,5 @@
 import json
 from fastapi import FastAPI, HTTPException
-from flask import jsonify
 from pydantic import BaseModel
 from pymongo import MongoClient
 
@@ -10,15 +9,37 @@ mongo_url = "mongodb+srv://domdypol:Dompol19@cluster0.hxrw0cv.mongodb.net/?retry
 
 client = MongoClient(mongo_url)
 db = client["flipbird"]
-collection = db["flipboard"]
+collection_board = db["flipboard"]
+collection_comment = db["flipcomment"]
 
-f = open("db.json")
+print("fuck this shit")
 
-Users = json.load(f)
+class Comments(BaseModel):
+    comment: str
+    user_name: str
+    pronouns: str
+    comment_date: str
 
-class Product(BaseModel):
-    name: str
-    price: float
+class Comments(BaseModel):
+    board_id : int
+    board_name: str
+    description : str 
+    like : int
+    dislike : int
+    board_date : str
+    tag : list = [str]
+
+@app.post("/boards/", response_model=Comments, response_description="Create new board")
+async def add_board(board : Comments):
+    new_board = await collection_board.insert_one(board.model_dump(by_alias=True, exclude=["id"]))
+    created_board = await collection_board.insert_one(new_board).inserted_id
+    return created_board
+
+@app.post("/comments/", response_model=Comments, response_description="Create new board")
+async def add_comment(comment : Comments):
+    new_comment = await collection_comment.insert_one(comment.model_dump(by_alias=True, exclude=["id"]))
+    create_comment = await collection_comment.insert_one(new_comment).inserted_id
+    return create_comment
 
 @app.get("/")
 def hello_world():
@@ -26,53 +47,61 @@ def hello_world():
 
 @app.get("/users")
 async def get_all_users():
-    return Users
+    users_list = []
+    users = collection_board.find()
+    for user in users:
+        users_list.append({
+            "board_id" : user['id'],
+            "user_id" : user['user_id'],
+            "tag" : user["tag"],
+            "description" : user['description'],
+            "like" : user['like'],
+            "dislike" : user['dislike'],
+            "date" : user['date']
+        })
+    return users_list
 
-@app.get("/board/{board_id}")
-def get_board(board_id: int):
-    board = collection.find_one({"board_id": board_id}, {"board_id": 0})
+@app.get("/boards")
+async def get_all_boards():
+    board_list = []
+    boards = collection_board.find()
+    for board in boards:
+        board_list.append({
+            "board_id": board['board_id'],
+            "comment_id" : board['comment_id'],
+            "user_id_comment" : board['user_id_comment'],
+            "comment" : board['comment']
+        })
+    return board_list
+
+@app.get("/users/{board_id}")
+def get_user(board_id: int):
+    board = collection_board.find_one({"board_id": board_id})
     if board:
         return board
     else:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-# fuck this shit lmao
-# git hub got hands bruh, damn
-
-@app.get("/products/", response_model=list[Product])
-def get_all_products():
-    return list(collection.find())
-
-@app.get("/products/{product_id}", response_model=Product)
-def get_product_by_id(product_id: int):
-    product = collection.find_one({"id": product_id}, {"_id": 0})
-    if product:
-        return product
-    else:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-@app.post("/products/", response_model=dict)
-def add_product(product: Product):
-    product_dict = product.dict()
-    product_id = collection.insert_one(product_dict).inserted_id
-    return {"id": product_id}
-
-@app.delete("/products/{product_id}", response_model=dict)
-def delete_product(product_id: int):
-    result = collection.delete_one({"id": product_id})
-    if result.deleted_count == 1:
-        return {"message": "Product deleted successfully"}
-    else:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-@app.put("/products/{product_id}", response_model=dict)
-def update_product(product_id: int, product: Product):
-    product_dict = product.dict()
-    update_data = {"$set": product_dict}
-    result = collection.update_one({"id": product_id}, update_data)
-    if result.modified_count == 1:
-        return {"message": "Product updated successfully"}
-    else:
-        raise HTTPException(status_code=404, detail="Product not found")
+        raise HTTPException(status_code=404, detail="board not found")
     
-f.close()
+@app.get("/boards/{board_id}")
+def get_board(board_id: int):
+    board = collection_board.find_one({"board_id": board_id})
+    if board:
+        return board
+    else:
+        raise HTTPException(status_code=404, detail="board not found")
+
+@app.delete("/users/{board_id}" )
+def delete_user(board_id: int):
+    result = collection_board.delete_one({"board_id": board_id})
+    if result.deleted_count == 1:
+        return {"message": "Board deleted successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Board not found")
+    
+@app.delete("/boards/{board_id}")
+def delete_board(board_id: int):
+    result = collection_board.delete_one({"board_id": board_id})
+    if result.deleted_count == 1:
+        return {"message": "Board deleted successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Board not found")
