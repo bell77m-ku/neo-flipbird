@@ -23,7 +23,7 @@ export default component$(() => {
     <>
       <PopularTag/>
       <SearchBar />
-      <AddBoard />
+      <AddBoard link="/createBoard"/>
       <div>
         {board}
       </div>

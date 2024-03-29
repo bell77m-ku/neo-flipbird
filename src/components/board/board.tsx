@@ -1,4 +1,5 @@
 import { component$} from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 
 export interface BoardProps {
   board_title : string;
@@ -10,6 +11,7 @@ export interface BoardProps {
 }
 
 export const Board = component$<BoardProps>((props) => {
+    
   const tagElements = props.board_tags.map((tag, index) => (
     <span key={index} class="underline mr-2">{`#${tag}`}</span>
   ));
@@ -18,6 +20,7 @@ export const Board = component$<BoardProps>((props) => {
       <div class="container">
       <section class="selection:container">
         <div class="flex flex-col px-12 pt-9 pb-5 mt-32 rounded-3xl border-black border-solid border-[3px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] max-md:px-5 max-md:mt-10 max-md:max-w-full">
+        <Link class="text-black" href="/comments">
           <div class="flex gap-5 text-black max-md:flex-wrap max-md:max-w-full">
             <div class="flex-auto text-4xl">{props.board_title}</div>
             <div class="flex-auto self-start text-base">{props.board_date}</div>
@@ -31,6 +34,8 @@ export const Board = component$<BoardProps>((props) => {
           <div class="mt-10 text-2xl text-black max-md:max-w-full">
             {props.board_description}
           </div>
+          </Link>
+
           
           <div class="flex flex-col md:flex-row gap-5 items-start mt-6 md:mt-10 max-w-full md:w-[336px]">
 
