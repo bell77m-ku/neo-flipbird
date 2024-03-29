@@ -18,7 +18,7 @@ class Comments(BaseModel):
     pronouns: str
     comment_date: str
 
-class Comments(BaseModel):
+class Boards(BaseModel):
     board_id : int
     board_name: str
     description : str 
@@ -27,37 +27,45 @@ class Comments(BaseModel):
     board_date : str
     tag : list = [str]
 
-@app.post("/boards/", response_model=Comments, response_description="Create new board")
-async def add_board(board : Comments):
+@app.post("/boards/", response_model=Boards, response_description="Create new board")
+async def add_board(board : Boards):
     new_board = await collection_board.insert_one(board.model_dump(by_alias=True, exclude=["id"]))
     created_board = await collection_board.insert_one(new_board).inserted_id
     return created_board
 
-@app.post("/comments/", response_model=Comments, response_description="Create new board")
+@app.post("/comments/", response_model=Comments, response_description="Create new comment")
 async def add_comment(comment : Comments):
     new_comment = await collection_comment.insert_one(comment.model_dump(by_alias=True, exclude=["id"]))
     create_comment = await collection_comment.insert_one(new_comment).inserted_id
     return create_comment
 
 @app.get("/")
-def hello_world():
-    return {"message": "Hello, World!"}
+def hello_peter():
+    return {"message": "Hello,Peter"}
 
-@app.get("/users")
-async def get_all_users():
-    users_list = []
-    users = collection_board.find()
-    for user in users:
-        users_list.append({
+@app.get(
+    "/boards/",
+    response_description="List all boards",
+    response_model=Boards,
+    response_model_by_alias=False,
+)
+async def list_boards():
+    return Boards(boards=await collection_board.find().to_list(1000))
+
+@app.get("/boards")
+async def get_all_boards():
+    boards_list = []
+    boards = collection_board.find()
+    for user in boards:
+        boards_list.append({
             "board_id" : user['id'],
-            "user_id" : user['user_id'],
             "tag" : user["tag"],
             "description" : user['description'],
             "like" : user['like'],
             "dislike" : user['dislike'],
-            "date" : user['date']
+            "board_date" : user['date']
         })
-    return users_list
+    return boards_list
 
 @app.get("/boards")
 async def get_all_boards():
