@@ -12,8 +12,6 @@ db = client["flipbird"]
 collection_board = db["flipboard"]
 collection_comment = db["flipcomment"]
 
-print("fuck this shit")
-
 class Comments(BaseModel):
     comment: str
     user_name: str
