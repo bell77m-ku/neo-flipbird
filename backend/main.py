@@ -1,18 +1,20 @@
 import json
 from fastapi import FastAPI, HTTPException
-from flask import jsonify
 from pydantic import BaseModel
 from pymongo import MongoClient
 
 app = FastAPI()
 
+print("fuck me in the ass!")
+
 mongo_url = "mongodb+srv://domdypol:Dompol19@cluster0.hxrw0cv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 client = MongoClient(mongo_url)
 db = client["flipbird"]
-collection = db["flipboard"]
+collection = db["flipoff"]
+collection_board = db["flipboard"]
 
-f = open("db.json")
+f = open("flipoff.json")
 
 Users = json.load(f)
 
@@ -26,18 +28,42 @@ def hello_world():
 
 @app.get("/users")
 async def get_all_users():
-    return Users
+    users_list = []
+    users = collection.find()
+    for user in users:
+        users_list.append({
+            "board_id" : user['id'],
+            "user_id" : user['user_id'],
+            "tag" : user["tag"],
+            "description" : user['description'],
+            "like" : user['like'],
+            "dislike" : user['dislike'],
+            "date" : user['date']
+        })
+    return users_list
+
+@app.get("/boards")
+async def get_all_boards():
+    board_list = []
+    boards = collection.find()
+    for board in boards:
+        board_list.append({
+            "board_id": board['board_id'],
+            "comment_id" : board['comment_id'],
+            "user_id_comment" : board['user_id_comment'],
+            "comment" : board['comment']
+        })
+    return board_list
 
 @app.get("/board/{board_id}")
 def get_board(board_id: int):
-    board = collection.find_one({"board_id": board_id}, {"board_id": 0})
+    board = collection.find_one({"board_id": board_id})
     if board:
         return board
     else:
         raise HTTPException(status_code=404, detail="Product not found")
 
-# fuck this shit lmao
-# git hub got hands bruh, damn
+# test code below
 
 @app.get("/products/", response_model=list[Product])
 def get_all_products():
