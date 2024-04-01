@@ -71,7 +71,7 @@ export default component$(() => {
         <Resource
           value={boardsData}
           onPending={() => <p>Loading...</p>}
-          onResolved={data =>data.map((d :board) => <Board key={val++} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>)}
+          onResolved={data =>  data.map((d :board) => <Board key={val++} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>)}
         />
       </div>
       <NextPageBoard/>
