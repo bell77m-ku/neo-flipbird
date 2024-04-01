@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useStore, useResource$ ,Resource} from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 import Counter from "../components/starter/counter/counter";
@@ -10,22 +10,69 @@ import { SearchBar } from "~/components/searchBar/searchBar";
 import { NextPageBoard } from "~/components/nextPageBoard/nextPageBoard";
 import { PopularTag } from "~/components/popular_tag/popular-tag";
 import { AddBoard } from "~/components/addBoard/addBoard";
+import axios from "axios";
 
+
+type  board = {      
+  "board_date": string,
+  "board_id": number,
+  "board_name": string,
+  "description": string,
+  "dislike": number,
+  "like": number
+}
 
 export default component$(() => {
-  const board = [];
-  for (let i = 0; i < 2; i++) {
-    // note: we are adding a key prop here to allow react to uniquely identify each
-    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-    board.push(<Board key={i} board_title="Test" board_date="1022" board_dislike={10} board_like={20} board_description="shit" board_tags={["hi", "hello"]}/>);
-  }
+
+  const jsonData = {
+      
+        "board_date": "0-0-0-0",
+        "board_id": 1,
+        "board_name": "Board 2",
+        "description": "description",
+        "dislike": 0,
+        "like": 0
+      
+  };
+
+  const inc = async () => {await fetch('http://127.0.0.1:5000/boards', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify( jsonData)}) .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  })};
+  inc();
+
+  
+   let val = 0;
+ 
+  const boardsData = useResource$( async ()=>{ 
+     const res = await fetch("http://127.0.0.1:5000/boards");
+     const data = await res.json();
+     return data.boards;
+  });
+ 
+
+  //  
+
   return (
     <>
       <PopularTag/>
       <SearchBar />
       <AddBoard link="/createBoard"/>
       <div>
-        {board}
+        <Resource
+          value={boardsData}
+          onPending={() => <p>Loading...</p>}
+          onResolved={data =>data.map((d :board) => <Board key={val++} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>)}
+        />
       </div>
       <NextPageBoard/>
       

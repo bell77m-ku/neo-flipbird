@@ -1,7 +1,10 @@
-import { component$} from '@builder.io/qwik';
-import { Link } from '@builder.io/qwik-city';
+import { component$, useSignal} from '@builder.io/qwik';
+import { Link} from '@builder.io/qwik-city';
+
+import axios from 'axios';
 
 export interface BoardProps {
+  board_id: number;
   board_title : string;
   board_description : string;
   board_tags : string[];
@@ -10,8 +13,15 @@ export interface BoardProps {
   board_dislike: number;
 }
 
+
 export const Board = component$<BoardProps>((props) => {
-    
+  
+
+
+  const countLike = useSignal(0);
+  const countDislike = useSignal(0);
+
+ 
   const tagElements = props.board_tags.map((tag, index) => (
     <span key={index} class="underline mr-2">{`#${tag}`}</span>
   ));
@@ -39,17 +49,17 @@ export const Board = component$<BoardProps>((props) => {
           
           <div class="flex flex-col md:flex-row gap-5 items-start mt-6 md:mt-10 max-w-full md:w-[336px]">
 
-          <button class = "bg-transparent">
+          <button class = "bg-transparent" onClick$={()=>countLike.value++}>
             <div class="flex flex-1 gap-4 items-start px-3 py-px text-3xl whitespace-nowrap bg-white">
               <div class="justify-center self-start px-5 py-1.5 bg-white border-2 border-black border-solid rounded-[50px] text-zinc-950">
                 🖕
               </div>
               
-              <div class="my-auto text-black">{props.board_like}</div>
+              <div class="my-auto text-black">{props.board_like} {countLike}</div>
             </div>
             </button>
 
-            <button class = "bg-transparent">
+            <button class = "bg-transparent" onClick$={() => countDislike.value++}>
             <div class="flex flex-1 gap-4 items-start px-3 py-px text-3xl whitespace-nowrap bg-white">
               <div class="justify-center self-start px-5 py-1.5 bg-white border-2 border-black border-solid rounded-[50px] text-zinc-950 rotate-180">
                 🖕

@@ -1,5 +1,5 @@
 import { component$ } from '@builder.io/qwik';
-
+import { Image } from '@unpic/qwik';
 export interface CommentSectionProps {
 
 }
@@ -11,7 +11,7 @@ export const CommentSection = component$<CommentSectionProps>((props) => {
       <div class="max-md:max-w-full">
         <div class="flex gap-5 max-md:flex-col max-md:gap-0">
           <div class="flex flex-col w-[21%] max-md:ml-0 max-md:w-full">
-            <img
+            <Image
               loading="lazy"
               srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/0dbfb497bb2e24fe21d924da410834d9eb4eae2bbb3d62a4b0cf70702646643c?apiKey=80699746842b49ec8adeb7230d298b8e&"
               class="grow shrink-0 w-48 max-w-full aspect-[0.96] max-md:mt-10"
