@@ -1,10 +1,13 @@
 import { component$ } from '@builder.io/qwik';
 import { Image } from '@unpic/qwik';
 export interface CommentSectionProps {
-
+  "comment_id": number,
+  "board_id": number,
+  "comment": string,
+  "comment_date": string
 }
-
 export const CommentSection = component$<CommentSectionProps>((props) => {
+
   return (
     <div class="container">
     <div class="flex flex-col px-12 pt-12 pb-7 mt-6 rounded-3xl border-black border-solid shadow-sm border-[3px] max-md:px-5 max-md:max-w-full">
@@ -19,10 +22,7 @@ export const CommentSection = component$<CommentSectionProps>((props) => {
           </div>
           <div class="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
             <div class="text-2xl text-black max-md:mt-10 max-md:max-w-full">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.{" "}
+              {props.comment}
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@ export const CommentSection = component$<CommentSectionProps>((props) => {
       <div class="flex gap-5 self-end mt-8 text-base text-black max-md:flex-wrap">
         <div class="grow font-bold">User@1000</div>
         <div class="flex-auto">Pronouns: Obim/Obelf</div>
-        <div class="flex-auto">Created: 11/sep/2001</div>
+        <div class="flex-auto">{props.comment_date}</div>
       </div>
     </div>
     </div>

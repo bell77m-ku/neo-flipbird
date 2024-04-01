@@ -11,6 +11,7 @@ export default component$(() => {
 const createComment =  $( async (c:string) => {await fetch('http://127.0.0.1:5000/comments', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify( {
     "board_id": loc.params.id,
     "comment": c,
+    "comment_date": "date"
 })}) .then(response => {
   if (response.ok) {
     return response.json();

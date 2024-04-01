@@ -24,34 +24,33 @@ type  board = {
 
 export default component$(() => {
 
-  const jsonData = {
+  // const jsonData = {
       
-        "board_date": "0-0-0-0",
-        "board_id": 1,
-        "board_name": "Board 2",
-        "description": "description",
-        "dislike": 0,
-        "like": 0
+  //       "board_date": "0-0-0-0",
+  //       "board_id": 1,
+  //       "board_name": "Board 2",
+  //       "description": "description",
+  //       "dislike": 0,
+  //       "like": 0
       
-  };
+  // };
 
-  const inc = async () => {await fetch('http://127.0.0.1:5000/boards', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify( jsonData)}) .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Network response was not ok.');
-    }
-  })
-  .then(data => {
-    console.log('Success:', data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  })};
-  inc();
+  // const inc = async () => {await fetch('http://127.0.0.1:5000/boards', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify( jsonData)}) .then(response => {
+  //   if (response.ok) {
+  //     return response.json();
+  //   } else {
+  //     throw new Error('Network response was not ok.');
+  //   }
+  // })
+  // .then(data => {
+  //   console.log('Success:', data);
+  // })
+  // .catch(error => {
+  //   console.error('Error:', error);
+  // })};
+  // inc();
 
   
-   let val = 0;
  
   const boardsData = useResource$( async ()=>{ 
      const res = await fetch("http://127.0.0.1:5000/boards");
@@ -61,18 +60,20 @@ export default component$(() => {
  
 
   //  
-
+  // (d :board) => <Board key={val.value++} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>
   return (
     <>
       <PopularTag/>
       <SearchBar />
       <AddBoard link="/createBoard"/>
+    
       <div>
         <Resource
           value={boardsData}
           onPending={() => <p>Loading...</p>}
-          onResolved={data =>  data.map((d :board) => <Board key={val++} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>)}
+          onResolved={data =>data.map((d :board, index: number) =>  <Board key={index} board_id={d.board_id} board_title={d.board_name} board_date={d.board_date} board_dislike={d.dislike} board_like={d.like} board_description={d.description} board_tags={["hi", "hello"]}/>)}
         />
+
       </div>
       <NextPageBoard/>
       

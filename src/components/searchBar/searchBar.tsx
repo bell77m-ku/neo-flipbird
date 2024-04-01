@@ -20,5 +20,6 @@ export const SearchBar = component$<SearchBarProps>(() => {
       </section>
       </div>
     </div>
+    
   );
 });
